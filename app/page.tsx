@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 
 // ─── SVG Icons ────────────────────────────────────────────────────────────────
 
@@ -207,7 +208,7 @@ export default function Home() {
         className="animate-fade-up"
         style={{ display: "flex", alignItems: "center", gap: "10px", animationDelay: "0s" }}
       >
-        <LogoIcon />
+        <Image src="/favicon.ico" alt="Snipnote" width={40} height={40} priority style={{ borderRadius: "10px" }} />
         <span
           style={{
             fontFamily: "var(--font-bricolage)",
