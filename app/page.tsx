@@ -135,7 +135,7 @@ function FeatureCard({
         background: "rgba(255,255,255,0.88)",
         border: "1px solid rgba(200,205,225,0.6)",
         borderRadius: "20px",
-        padding: "32px 24px 32px",
+        padding: "20px 20px",
         boxShadow: "0 4px 24px rgba(100,90,200,0.07), 0 1px 4px rgba(0,0,0,0.05)",
         display: "flex",
         flexDirection: "column",
@@ -143,14 +143,14 @@ function FeatureCard({
     >
       <div
         style={{
-          width: 44,
-          height: 44,
-          borderRadius: "12px",
+          width: 36,
+          height: 36,
+          borderRadius: "10px",
           background: "rgba(124,92,245,0.10)",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          marginBottom: "14px",
+          marginBottom: "10px",
         }}
       >
         {icon}
@@ -195,13 +195,13 @@ export default function Home() {
   return (
     <main
       style={{
-        minHeight: "100vh",
+        height: "100vh",
         background: "linear-gradient(160deg, #e3e7f5 0%, #eceef8 45%, #e8ebf4 100%)",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "space-between",
-        padding: "40px 24px 56px",
+        padding: "32px 24px",
       }}
     >
       {/* Logo + wordmark */}
@@ -232,11 +232,11 @@ export default function Home() {
           style={{
             fontFamily: "var(--font-bricolage)",
             fontWeight: 800,
-            fontSize: "clamp(42px, 7vw, 68px)",
+            fontSize: "clamp(34px, 5.5vw, 54px)",
             lineHeight: 1.05,
             letterSpacing: "-0.03em",
             color: "#1a1e2e",
-            marginBottom: "22px",
+            marginBottom: "14px",
           }}
         >
           Share. Transcribe.{" "}
@@ -252,8 +252,8 @@ export default function Home() {
         <p
           style={{
             fontFamily: "var(--font-dm-sans)",
-            fontSize: "17px",
-            lineHeight: 1.65,
+            fontSize: "15px",
+            lineHeight: 1.6,
             color: "#6b7080",
             maxWidth: "440px",
             margin: "0 auto",
@@ -282,7 +282,7 @@ export default function Home() {
       {/* App Store CTA */}
       <div
         className="animate-fade-up"
-        style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0", animationDelay: "0.5s" }}
+        style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "12px", animationDelay: "0.5s" }}
       >
         <a
           href="https://apps.apple.com/us/app/snipnote-capture-ideas/id6760924955"
@@ -297,12 +297,11 @@ export default function Home() {
             fontFamily: "var(--font-dm-sans)",
             fontWeight: 600,
             fontSize: "16px",
-            padding: "14px 32px",
+            padding: "12px 28px",
             borderRadius: "100px",
             textDecoration: "none",
             boxShadow: "0 8px 32px rgba(124,92,245,0.32), 0 2px 8px rgba(124,92,245,0.2)",
             transition: "transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease",
-            marginBottom: "24px",
           }}
           onMouseEnter={(e) => {
             (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(-1px)";
@@ -326,7 +325,6 @@ export default function Home() {
             alignItems: "center",
             gap: "14px",
             width: "340px",
-            marginBottom: "18px",
           }}
         >
           <div style={{ flex: 1, height: "1px", background: "rgba(0,0,0,0.1)" }} />
@@ -419,7 +417,6 @@ export default function Home() {
       {/* Footer */}
       <footer
         style={{
-          marginTop: "32px",
           display: "flex",
           gap: "20px",
           alignItems: "center",
