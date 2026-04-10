@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 // ─── SVG Icons ────────────────────────────────────────────────────────────────
 
@@ -414,6 +415,48 @@ export default function Home() {
           </form>
         )}
       </div>
+
+      {/* Footer */}
+      <footer
+        style={{
+          marginTop: "32px",
+          display: "flex",
+          gap: "20px",
+          alignItems: "center",
+        }}
+      >
+        <Link
+          href="/privacy"
+          style={{
+            fontFamily: "var(--font-dm-sans)",
+            fontSize: "12px",
+            fontWeight: 500,
+            color: "#a0a5b8",
+            textDecoration: "none",
+            letterSpacing: "0.01em",
+            transition: "color 0.15s ease",
+          }}
+          onMouseEnter={(e) => {
+            (e.currentTarget as HTMLAnchorElement).style.color = "#7c5cf5";
+          }}
+          onMouseLeave={(e) => {
+            (e.currentTarget as HTMLAnchorElement).style.color = "#a0a5b8";
+          }}
+        >
+          Privacy Policy
+        </Link>
+        <span style={{ width: "3px", height: "3px", borderRadius: "50%", background: "#c8ccd8", flexShrink: 0 }} />
+        <span
+          style={{
+            fontFamily: "var(--font-dm-sans)",
+            fontSize: "12px",
+            color: "#c8ccd8",
+            fontWeight: 500,
+          }}
+        >
+          © 2026 Snipnote
+        </span>
+      </footer>
     </main>
   );
 }
