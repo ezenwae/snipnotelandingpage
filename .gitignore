@@ -55,3 +55,5 @@ next-env.d.ts
 # AI assistants — commit AGENTS.md / CLAUDE.md for shared rules; keep local-only files private
 AGENTS.local.md
 CLAUDE.local.md
+
+.env

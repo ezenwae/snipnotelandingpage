@@ -6,27 +6,6 @@ import Link from "next/link";
 
 // ─── SVG Icons ────────────────────────────────────────────────────────────────
 
-function LogoIcon() {
-  return (
-    <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect width="40" height="40" rx="12" fill="url(#logo-gradient)" />
-      <g transform="translate(8, 11)">
-        <rect x="0" y="7" width="4" height="11" rx="2" fill="white" opacity="0.9" />
-        <rect x="6" y="3" width="4" height="15" rx="2" fill="white" />
-        <rect x="12" y="0" width="4" height="18" rx="2" fill="white" />
-        <rect x="18" y="5" width="4" height="13" rx="2" fill="white" opacity="0.85" />
-      </g>
-      <defs>
-        <linearGradient id="logo-gradient" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#c084fc" />
-          <stop offset="50%" stopColor="#818cf8" />
-          <stop offset="100%" stopColor="#6366f1" />
-        </linearGradient>
-      </defs>
-    </svg>
-  );
-}
-
 function IconShare() {
   return (
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7c5cf5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -186,10 +165,30 @@ function FeatureCard({
 export default function Home() {
   const [email, setEmail] = useState("");
   const [notified, setNotified] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  function handleNotify(e: React.FormEvent) {
+  async function handleNotify(e: React.FormEvent) {
     e.preventDefault();
-    if (email) setNotified(true);
+    setLoading(true);
+    setError("");
+    try {
+      const res = await fetch("/api/waitlist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      if (res.ok) {
+        setNotified(true);
+      } else {
+        const data = await res.json();
+        setError(data.error === "Already on the list" ? "You're already on the list!" : "Something went wrong. Try again.");
+      }
+    } catch {
+      setError("Something went wrong. Try again.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -354,62 +353,75 @@ export default function Home() {
               fontWeight: 500,
             }}
           >
-            You're on the list!
+            You&apos;re on the list!
           </p>
         ) : (
           <form
             onSubmit={handleNotify}
-            style={{ display: "flex", gap: "8px" }}
+            style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "8px" }}
           >
-            <input
-              type="email"
-              placeholder="you@example.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              style={{
-                fontFamily: "var(--font-dm-sans)",
-                fontSize: "14px",
-                color: "#1a1e2e",
-                background: "rgba(255,255,255,0.75)",
-                border: "1px solid rgba(0,0,0,0.1)",
-                borderRadius: "100px",
-                padding: "10px 18px",
-                outline: "none",
-                width: "200px",
-                backdropFilter: "blur(8px)",
-              }}
-            />
-            <button
-              type="submit"
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "6px",
-                fontFamily: "var(--font-dm-sans)",
-                fontSize: "14px",
-                fontWeight: 500,
-                color: "#3d3d55",
-                background: "rgba(255,255,255,0.75)",
-                border: "1px solid rgba(0,0,0,0.1)",
-                borderRadius: "100px",
-                padding: "10px 18px",
-                cursor: "pointer",
-                backdropFilter: "blur(8px)",
-                transition: "border-color 0.15s ease, color 0.15s ease",
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLButtonElement).style.borderColor = "#7c5cf5";
-                (e.currentTarget as HTMLButtonElement).style.color = "#7c5cf5";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(0,0,0,0.1)";
-                (e.currentTarget as HTMLButtonElement).style.color = "#3d3d55";
-              }}
-            >
-              <IconBell />
-              Notify Me
-            </button>
+            <div style={{ display: "flex", gap: "8px" }}>
+              <input
+                type="email"
+                placeholder="you@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                disabled={loading}
+                style={{
+                  fontFamily: "var(--font-dm-sans)",
+                  fontSize: "14px",
+                  color: "#1a1e2e",
+                  background: "rgba(255,255,255,0.75)",
+                  border: "1px solid rgba(0,0,0,0.1)",
+                  borderRadius: "100px",
+                  padding: "10px 18px",
+                  outline: "none",
+                  width: "200px",
+                  backdropFilter: "blur(8px)",
+                  opacity: loading ? 0.6 : 1,
+                }}
+              />
+              <button
+                type="submit"
+                disabled={loading}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  fontFamily: "var(--font-dm-sans)",
+                  fontSize: "14px",
+                  fontWeight: 500,
+                  color: "#3d3d55",
+                  background: "rgba(255,255,255,0.75)",
+                  border: "1px solid rgba(0,0,0,0.1)",
+                  borderRadius: "100px",
+                  padding: "10px 18px",
+                  cursor: loading ? "not-allowed" : "pointer",
+                  backdropFilter: "blur(8px)",
+                  transition: "border-color 0.15s ease, color 0.15s ease",
+                  opacity: loading ? 0.6 : 1,
+                }}
+                onMouseEnter={(e) => {
+                  if (!loading) {
+                    (e.currentTarget as HTMLButtonElement).style.borderColor = "#7c5cf5";
+                    (e.currentTarget as HTMLButtonElement).style.color = "#7c5cf5";
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(0,0,0,0.1)";
+                  (e.currentTarget as HTMLButtonElement).style.color = "#3d3d55";
+                }}
+              >
+                <IconBell />
+                {loading ? "Saving..." : "Notify Me"}
+              </button>
+            </div>
+            {error && (
+              <p style={{ fontFamily: "var(--font-dm-sans)", fontSize: "13px", color: "#e05c5c" }}>
+                {error}
+              </p>
+            )}
           </form>
         )}
       </div>
